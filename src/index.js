@@ -42,24 +42,18 @@ const items = features.map(f => f.properties).map(p => ({
   area: `${p.value} ${p.value_uom}`
 }))
 
-const dates = items.map(i => ({
+const 
+
+const dates = items => items.map(i => ({
   end: i.end,
   end_date: moment(new Date(i.end)).add(1, 'days')
 }))
 
-const datesPlusAges = dates.map(i => ({
+const datesPlusAges = dates => dates.map(i => ({
   end_date: i.end_date,
   age: moment().diff(i.end_date, 'years')
 }))
 
-const ages = datesPlusAges.map(i => i.age).filter(i => i > 0)
+const ages = datesPlusAges => datesPlusAges.map(i => i.age).filter(i => i > 0)
 
-// console.log(datesPlusAges)
-
-// console.log(ages.toString())
-
-// console.log(arr.median(ages).toFixed(2))
-
-// console.log(items.filter(i => i.condition !== 'functional'))
-
-exportAsCsv(items.filter(i => i.condition === 'ruin'))
+const numberOfItems = items => items.length
