@@ -693,6 +693,12 @@ cryptiles@2.x.x:
   dependencies:
     boom "2.x.x"
 
+csv-stringify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-2.0.0.tgz#927bb55fd1408205ce444d2880184627b24b64f1"
+  dependencies:
+    lodash.get "~4.4.2"
+
 d3-array@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.1.tgz#d1ca33de2f6ac31efadb8e050a021d7e2396d5dc"
@@ -1102,6 +1108,10 @@ kind-of@^4.0.0:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-4.0.0.tgz#20813df3d712928b207378691a45066fae72dd57"
   dependencies:
     is-buffer "^1.1.5"
+
+lodash.get@~4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
 
 lodash@^4.17.4:
   version "4.17.4"

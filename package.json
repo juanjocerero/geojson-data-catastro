@@ -9,6 +9,7 @@
     "start": "babel-node src"
   },
   "dependencies": {
+    "csv-stringify": "^2.0.0",
     "d3-array": "^1.2.1",
     "moment": "^2.19.1"
   },
