@@ -46,7 +46,7 @@ const items = features => features.map(f => f.properties).map(p => ({
   documentLink: p.documentLink,
   informationSystem: p.informationSystem,
   area: `${p.value} ${p.value_uom}`,
-  areaNumber: p.value
+  areaNumber: +p.value
 }))
 
 const ages = datesPlusAges => datesPlusAges.map(i => i.age).filter(i => i > 0)
@@ -79,6 +79,10 @@ const oldestBuildings = (items, number) => _.take(_.orderBy(items.filter(i => i.
 
 const buildingsThatTookMostTimeToBuild = (items, number) => _.take(_.orderBy(items.filter(i => i.constructionYears > 0), 'constructionYears').reverse(), number)
 
+const buildingsOverMediumSize = (items) => items.filter(i => i.areaNumber && (i.areaNumber > mediumSizeOfBuildings(items))).length
+
+const buildingsUnderArea = (items, maxArea) => items.filter(i => i.currentUse === 'residential' && i.areaNumber && (i.areaNumber < maxArea)).length
+
 // fs.readdir(path.join(__dirname, DATA_FOLDER), (err, files) => {
 //   if (err) throw new Error(err)
 //   files.forEach(file => {
@@ -91,6 +95,8 @@ const buildingsThatTookMostTimeToBuild = (items, number) => _.take(_.orderBy(ite
 //                   buildings in ruins:         ${buildingsInRuins(objs)}
 //                   median size of building:    ${medianSizeOfBuildings(objs)} m2
 //                   medium size of building:    ${mediumSizeOfBuildings(objs)} m2
+//                   buildings over medium size: ${buildingsOverMediumSize(objs)} (${((buildingsOverMediumSize(objs) / objs.length) * 100).toFixed(2)}%)
+//                   houses under 50 m2:         ${buildingsUnderArea(objs, 50)}
 //                   residential buildings:      ${residentialBuildings(objs).length} (${((residentialBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
 //                   agriculture buildings:      ${agricultureBuildings(objs).length} (${((agricultureBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
 //                   industrial buildings:       ${industrialBuildings(objs).length} (${((industrialBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
@@ -115,3 +121,22 @@ const objs = items(features(csv(('18900-granada.geojson'))))
 // })
 
 
+// let mediumSize = mediumSizeOfBuildings(objs.filter( o => o.currentUse === '1_residential'))
+// let mediumDwellings = arr.mean(objs.filter(o => o.currentUse === '1_residential').map(o => o.dwellings)).toFixed(2)
+// let mediumBuildings = arr.mean(objs.filter(o => o.currentUse === '1_residential').map(o => o.buildingUnits)).toFixed(2)
+
+// console.log(`
+//   residential mean size: ${mediumSize} m2
+//   residential mean dwellings: ${mediumDwellings}
+//   residential mean buildings: ${mediumBuildings}
+// `)
+
+
+let orderedByArea = _.orderBy(objs, 'areaNumber').reverse()
+
+console.log(_.take(orderedByArea.map(o => ({
+  currentUse: o.currentUse,
+  informationSystem: o.informationSystem,
+  documentLink: o.documentLink,
+  area: o.area
+})), 10))
