@@ -5,7 +5,7 @@ import * as arr from 'd3-array'
 import _ from 'lodash'
 import * as fs from 'fs'
 
-const DATA_FOLDER = '../data'
+const DATA_FOLDER = '../data-am'
 
 const exportAsCsv = (data, outputName) => {
   stringify(data, (error, output) => {
@@ -26,7 +26,7 @@ const exportAsCsv = (data, outputName) => {
   })
 }
 
-const csv = file => fs.readFileSync(path.join(__dirname, `../data/${file}`), { encoding: 'utf8' })
+const csv = file => fs.readFileSync(path.join(__dirname, `/${DATA_FOLDER}/${file}`), { encoding: 'utf8' })
 
 const features = csv => JSON.parse(csv).features
 
@@ -83,33 +83,33 @@ const buildingsOverMediumSize = (items) => items.filter(i => i.areaNumber && (i.
 
 const buildingsUnderArea = (items, maxArea) => items.filter(i => i.currentUse === 'residential' && i.areaNumber && (i.areaNumber < maxArea)).length
 
-// fs.readdir(path.join(__dirname, DATA_FOLDER), (err, files) => {
-//   if (err) throw new Error(err)
-//   files.forEach(file => {
-//     let objs = items(features(csv(file)))
-//     console.log(`
-//                   file:                       ${file}
+fs.readdir(path.join(__dirname, DATA_FOLDER), (err, files) => {
+  if (err) throw new Error(err)
+  files.forEach(file => {
+    let objs = items(features(csv(file)))
+    console.log(`
+                  file:                       ${file}
 
-//                   buildings:                  ${objs.length}
-//                   buildings not ok:           ${buildingsNotOk(objs)}
-//                   buildings in ruins:         ${buildingsInRuins(objs)}
-//                   median size of building:    ${medianSizeOfBuildings(objs)} m2
-//                   medium size of building:    ${mediumSizeOfBuildings(objs)} m2
-//                   buildings over medium size: ${buildingsOverMediumSize(objs)} (${((buildingsOverMediumSize(objs) / objs.length) * 100).toFixed(2)}%)
-//                   houses under 50 m2:         ${buildingsUnderArea(objs, 50)}
-//                   residential buildings:      ${residentialBuildings(objs).length} (${((residentialBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
-//                   agriculture buildings:      ${agricultureBuildings(objs).length} (${((agricultureBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
-//                   industrial buildings:       ${industrialBuildings(objs).length} (${((industrialBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
-//                   office buildings:           ${officeBuildings(objs).length} (${((officeBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
-//                   retail buildings:           ${retailBuildings(objs).length} (${((retailBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
-//                   public services buildings:  ${publicServicesBuildings(objs).length} (${((publicServicesBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
-//                   residential medium size:    ${mediumSizeOfBuildings(objs.filter(o => o.currentUse !== null && o.currentUse === '1_residential'))} m2
+                  buildings:                  ${objs.length}
+                  buildings not ok:           ${buildingsNotOk(objs)}
+                  buildings in ruins:         ${buildingsInRuins(objs)}
+                  median size of building:    ${medianSizeOfBuildings(objs)} m2
+                  medium size of building:    ${mediumSizeOfBuildings(objs)} m2
+                  buildings over medium size: ${buildingsOverMediumSize(objs)} (${((buildingsOverMediumSize(objs) / objs.length) * 100).toFixed(2)}%)
+                  houses under 50 m2:         ${buildingsUnderArea(objs, 50)}
+                  residential buildings:      ${residentialBuildings(objs).length} (${((residentialBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
+                  agriculture buildings:      ${agricultureBuildings(objs).length} (${((agricultureBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
+                  industrial buildings:       ${industrialBuildings(objs).length} (${((industrialBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
+                  office buildings:           ${officeBuildings(objs).length} (${((officeBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
+                  retail buildings:           ${retailBuildings(objs).length} (${((retailBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
+                  public services buildings:  ${publicServicesBuildings(objs).length} (${((publicServicesBuildings(objs).length / buildingsWithCurrentUse(objs)) * 100).toFixed(2)}%)
+                  residential medium size:    ${mediumSizeOfBuildings(objs.filter(o => o.currentUse !== null && o.currentUse === '1_residential'))} m2
 
-//     ----------------------------------------------------------------------------`)
-//   })
-// })
+    ----------------------------------------------------------------------------`)
+  })
+})
 
-const objs = items(features(csv(('18900-granada.geojson'))))
+// const objs = items(features(csv(('18900-granada.geojson'))))
 
 // let buildingsFinishedByYear = []
 
@@ -132,11 +132,11 @@ const objs = items(features(csv(('18900-granada.geojson'))))
 // `)
 
 
-let orderedByArea = _.orderBy(objs, 'areaNumber').reverse()
+// let orderedByArea = _.orderBy(objs, 'areaNumber').reverse()
 
-console.log(_.take(orderedByArea.map(o => ({
-  currentUse: o.currentUse,
-  informationSystem: o.informationSystem,
-  documentLink: o.documentLink,
-  area: o.area
-})), 10))
+// console.log(_.take(orderedByArea.map(o => ({
+//   currentUse: o.currentUse,
+//   informationSystem: o.informationSystem,
+//   documentLink: o.documentLink,
+//   area: o.area
+// })), 10))
